@@ -22,12 +22,18 @@ Down below is the total number of steps taken per day.  I have created a new dat
 
 Histogram information goes here
 
-
+Below the histogram are two more data frames.  They are very similar to total_steps, but instead of showing totals, mean_daily_steps shows the mean and median_daily_steps shows the median.
 
 
 ```r
 total_steps <- aggregate(steps ~ date, activity, sum)
-##histogram information here
+hist(total_steps$steps, main = "Histogram of Total Steps in a Day", 
+     xlab = "Total Steps")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+```r
 mean_daily_steps <- aggregate(steps ~ date, activity, mean)
 median_daily_steps <- aggregate(steps ~ date, activity, median)
 mean_daily_steps
