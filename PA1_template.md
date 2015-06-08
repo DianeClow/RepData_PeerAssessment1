@@ -12,7 +12,8 @@ The steps is the number of stpes taken in a 5 minute interval.  Date is the date
 
 
 ```r
-activity <- read.csv("~/Documents/Coursera/DataScience/Reproducible Research/RepData_PeerAssessment1/activity.csv")
+unzip("activity.zip")
+activity <- read.csv("activity.csv")
 ```
 
 
@@ -188,6 +189,33 @@ Max_Interval
 
 ## Imputing missing values
 
+As shown below there are 2304 missing data points in the data set.
 
+To fill in the NA values, the NA's will be substatuted with the average value for the appropriate time interval.  The goal is to have a minimal effect on the overall analysis.
+
+
+```r
+NA_Values <- sum(is.na(activity$steps))
+NA_Values
+```
+
+```
+## [1] 2304
+```
+
+```r
+activity2 <- activity ## copies the data set so that the original one is not modified
+len <- nrow(activity2) ## calculates how many rows in the data set
+for(i in 1:len){
+    if(is.na(activity2$steps[i]) == TRUE){ ##checks to see if the value is missing
+        int <- activity2$interval[i] ## caluclates the interval number
+        temp <- subset(time_interval_steps, interval == int) ## creates a temporary data frame that has been subseted to the single interval value needed
+        activity2$steps[i] <- temp$steps ## replaces the NA value with the average
+    }
+}
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+

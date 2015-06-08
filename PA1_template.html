@@ -64,7 +64,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>interval</li>
 </ul>
 <p>The steps is the number of stpes taken in a 5 minute interval. Date is the date that the steps were taken on (2012-10-01 to 2012-11-30). Interval is the interval thoughout the day. Missing values are coded as NA.</p>
-<pre class="r"><code>activity &lt;- read.csv(&quot;~/Documents/Coursera/DataScience/Reproducible Research/RepData_PeerAssessment1/activity.csv&quot;)</code></pre>
+<pre class="r"><code>unzip(&quot;activity.zip&quot;)
+activity &lt;- read.csv(&quot;activity.csv&quot;)</code></pre>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
@@ -206,6 +207,20 @@ Max_Interval</code></pre>
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<p>As shown below there are 2304 missing data points in the data set.</p>
+<p>To fill in the NA values, the NA’s will be substatuted with the average value for the appropriate time interval. The goal is to have a minimal effect on the overall analysis.</p>
+<pre class="r"><code>NA_Values &lt;- sum(is.na(activity$steps))
+NA_Values</code></pre>
+<pre><code>## [1] 2304</code></pre>
+<pre class="r"><code>activity2 &lt;- activity ## copies the data set so that the original one is not modified
+len &lt;- nrow(activity2) ## calculates how many rows in the data set
+for(i in 1:len){
+    if(is.na(activity2$steps[i]) == TRUE){ ##checks to see if the value is missing
+        int &lt;- activity2$interval[i] ## caluclates the interval number
+        temp &lt;- subset(time_interval_steps, interval == int) ## creates a temporary data frame that has been subseted to the single interval value needed
+        activity2$steps[i] &lt;- temp$steps ## replaces the NA value with the average
+    }
+}</code></pre>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
