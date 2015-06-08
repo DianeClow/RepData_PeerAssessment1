@@ -49,6 +49,10 @@ time_interval_steps <- aggregate(steps ~ interval, activity, mean)
 plot(time_interval_steps$steps ~ time_interval_steps$interval, 
      type="l", main = "Average Number of Steps per Interval", 
      ylab="Number of Steps", xlab="Interval (5 minutes)")
+max <- max(time_interval_steps$steps)
+Max_Interval <- subset(time_interval_steps, 
+                       time_interval_steps$steps == max)
+Max_Interval
 ```
 
 

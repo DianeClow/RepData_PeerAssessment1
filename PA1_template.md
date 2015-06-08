@@ -173,6 +173,18 @@ plot(time_interval_steps$steps ~ time_interval_steps$interval,
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
+```r
+max <- max(time_interval_steps$steps)
+Max_Interval <- subset(time_interval_steps, 
+                       time_interval_steps$steps == max)
+Max_Interval
+```
+
+```
+##     interval    steps
+## 104      835 206.1698
+```
+
 
 ## Imputing missing values
 
