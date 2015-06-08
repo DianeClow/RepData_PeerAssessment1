@@ -7,10 +7,36 @@ output:
 
 
 ## Loading and preprocessing the data
+Start by loading the data into R.  The following code loads in a csv file called "activity.csv" which contains 3 columns:
 
+- steps
+- date
+- interval
+
+The steps is the number of stpes taken in a 5 minute interval.  Date is the date that the steps were taken on (2012-10-01 to 2012-11-30).  Interval is the interval thoughout the day.  Missing values are coded as NA.
+
+```{r}
+activity <- read.csv("~/Documents/Coursera/DataScience/Reproducible Research/RepData_PeerAssessment1/activity.csv")
+```
 
 
 ## What is mean total number of steps taken per day?
+
+Down below is the total number of steps taken per day.  I have created a new data.frame called total_steps that contains two columns of data.  The first column is the date (there are 53 values).  The second one is the sum of all the steps on that day.
+
+Histogram information goes here
+
+
+
+```{r}
+total_steps <- aggregate(steps ~ date, activity, sum)
+##histogram information here
+mean_daily_steps <- aggregate(steps ~ date, activity, mean)
+median_daily_steps <- aggregate(steps ~ date, activity, median)
+mean_daily_steps
+median_daily_steps
+```
+
 
 
 
