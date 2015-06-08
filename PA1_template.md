@@ -193,6 +193,8 @@ As shown below there are 2304 missing data points in the data set.
 
 To fill in the NA values, the NA's will be substatuted with the average value for the appropriate time interval.  The goal is to have a minimal effect on the overall analysis.
 
+Adding in the estamets for different values, there are 8 more days accounted for than before. Yes they differ.
+
 
 ```r
 NA_Values <- sum(is.na(activity$steps))
@@ -213,7 +215,11 @@ for(i in 1:len){
         activity2$steps[i] <- temp$steps ## replaces the NA value with the average
     }
 }
+total_steps2 <- aggregate(steps ~ date, activity2, sum)
+hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
