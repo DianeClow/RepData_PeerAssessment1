@@ -6,7 +6,6 @@ hist(total_steps$steps, main = "Histogram of Total Steps in a Day", xlab = "Tota
 
 ### Part 2
 time_interval_steps <- aggregate(steps ~ interval, activity, mean)
-
 plot(time_interval_steps$steps ~ time_interval_steps$interval, 
      type="l", main = "Average Number of Steps per Interval", 
      ylab="Number of Steps", xlab="Interval (5 minutes)")
