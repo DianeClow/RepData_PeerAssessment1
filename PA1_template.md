@@ -157,11 +157,21 @@ median_daily_steps
 ## 53 2012-11-29     0
 ```
 
-
-
-
 ## What is the average daily activity pattern?
 
+Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.
+
+The plot is a time series showing the average number of steps per interval.  As you can see there is a large spike around interval 800 - 920.
+
+
+```r
+time_interval_steps <- aggregate(steps ~ interval, activity, mean)
+plot(time_interval_steps$steps ~ time_interval_steps$interval, 
+     type="l", main = "Average Number of Steps per Interval", 
+     ylab="Number of Steps", xlab="Interval (5 minutes)")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
 
 ## Imputing missing values
