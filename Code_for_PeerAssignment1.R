@@ -23,4 +23,5 @@ for(i in 1:len){
         activity2$steps[i] <- temp$steps ## replaces the NA value with the average
     }
 }
-
+total_steps2 <- aggregate(steps ~ date, activity2, sum)
+hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
