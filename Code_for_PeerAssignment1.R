@@ -1,7 +1,9 @@
 ### Part 1
 total_steps <- aggregate(steps ~ date, activity, sum)
 mean_daily_steps <- aggregate(steps ~ date, activity, mean)
+mean_steps <- mean(activity$steps, na.rm = TRUE)
 median_daily_steps <- aggregate(steps ~ date, activity, median)
+median_steps <- median(activity$steps, na.rm = TRUE)
 hist(total_steps$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
 
 ### Part 2
@@ -48,7 +50,6 @@ activity4 <- cbind(activity3, week)
 mean_day_end_steps <- aggregate(steps ~ week + interval, activity4, mean)
 
 library("lattice")
-
+## create the weekend vs weekdays plot
 xyplot(steps ~ interval | week, data = mean_day_end_steps, 
        type = "l", layout = c(1, 2))
-
