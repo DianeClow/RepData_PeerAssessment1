@@ -25,3 +25,30 @@ for(i in 1:len){
 }
 total_steps2 <- aggregate(steps ~ date, activity2, sum)
 hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
+
+## Part 4
+day_of_week <- c() ## epmty vector
+## calculates the day of the week
+for(i in 1:len){
+    day_of_week[i] <- weekdays(as.POSIXlt(activity2$date[i]))
+}
+## creates a new column stating the day of the week
+activity3 <- cbind(activity2, day_of_week)
+
+week <- c()
+for(i in 1:len){
+    if(day_of_week[i] == "Saturday" | day_of_week[i] == "Sunday"){
+        week[i] <- "Weekend"
+    }
+    else {
+        week[i] <- "Weekday"
+    }
+}
+activity4 <- cbind(activity3, week)
+mean_day_end_steps <- aggregate(steps ~ week + interval, activity4, mean)
+
+library("lattice")
+
+xyplot(steps ~ interval | week, data = mean_day_end_steps, 
+       type = "l", layout = c(1, 2))
+
