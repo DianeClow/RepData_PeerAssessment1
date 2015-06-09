@@ -198,19 +198,41 @@ median_steps
 
 ## What is the average daily activity pattern?
 
-Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.
+Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.  The first 10 rows of the data.frame are shown below.
+
+
+```r
+time_interval_steps <- aggregate(steps ~ interval, activity, mean)
+head(time_interval_steps, 10)
+```
+
+```
+##    interval     steps
+## 1         0 1.7169811
+## 2         5 0.3396226
+## 3        10 0.1320755
+## 4        15 0.1509434
+## 5        20 0.0754717
+## 6        25 2.0943396
+## 7        30 0.5283019
+## 8        35 0.8679245
+## 9        40 0.0000000
+## 10       45 1.4716981
+```
 
 The plot is a time series showing the average number of steps per interval.  As you can see there is a large spike around interval 800 - 920.
 
 
 ```r
-time_interval_steps <- aggregate(steps ~ interval, activity, mean)
 plot(time_interval_steps$steps ~ time_interval_steps$interval, 
      type="l", main = "Average Number of Steps per Interval", 
      ylab="Number of Steps", xlab="Interval (5 minutes)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+Actually calculating the max shows that the max is at interval 835 and in those 5 minutes the average is 206 steps.
+
 
 ```r
 max <- max(time_interval_steps$steps)
@@ -254,10 +276,10 @@ for(i in 1:len){
     }
 }
 total_steps2 <- aggregate(steps ~ date, activity2, sum)
-hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
+hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps", breaks = 20)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -291,4 +313,4 @@ xyplot(steps ~ interval | week, data = mean_day_end_steps,
        type = "l", layout = c(1, 2))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 

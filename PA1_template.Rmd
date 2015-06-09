@@ -52,15 +52,24 @@ median_steps
 
 ## What is the average daily activity pattern?
 
-Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.
+Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.  The first 10 rows of the data.frame are shown below.
+
+```{r}
+time_interval_steps <- aggregate(steps ~ interval, activity, mean)
+head(time_interval_steps, 10)
+```
 
 The plot is a time series showing the average number of steps per interval.  As you can see there is a large spike around interval 800 - 920.
 
 ```{r}
-time_interval_steps <- aggregate(steps ~ interval, activity, mean)
 plot(time_interval_steps$steps ~ time_interval_steps$interval, 
      type="l", main = "Average Number of Steps per Interval", 
      ylab="Number of Steps", xlab="Interval (5 minutes)")
+```
+
+Actually calculating the max shows that the max is at interval 835 and in those 5 minutes the average is 206 steps.
+
+```{r}
 max <- max(time_interval_steps$steps)
 Max_Interval <- subset(time_interval_steps, 
                        time_interval_steps$steps == max)
@@ -90,7 +99,7 @@ for(i in 1:len){
     }
 }
 total_steps2 <- aggregate(steps ~ date, activity2, sum)
-hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
+hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps", breaks = 20)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
