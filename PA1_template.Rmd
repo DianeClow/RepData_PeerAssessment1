@@ -81,14 +81,14 @@ Max_Interval
 
 As shown below there are 2304 missing data points in the data set.
 
-To fill in the NA values, the NA's will be substatuted with the average value for the appropriate time interval.  The goal is to have a minimal effect on the overall analysis.
-
-Adding in the estamets for different values, there are 8 more days accounted for than before. Yes they differ.
-
 ```{r}
 NA_Values <- sum(is.na(activity$steps))
 NA_Values
+```
 
+To fill in the NA values, the NA's will be substatuted with the average value for the appropriate time interval.  The goal is to have a minimal effect on the overall analysis.
+
+```{r}
 activity2 <- activity ## copies the data set so that the original one is not modified
 len <- nrow(activity2) ## calculates how many rows in the data set
 for(i in 1:len){
@@ -98,13 +98,31 @@ for(i in 1:len){
         activity2$steps[i] <- temp$steps ## replaces the NA value with the average
     }
 }
+```
+
+Adding in the estamets for different values, there are 8 more days accounted for than before. Yes they differ.  The same histogram is shown below, except that it contains the estimated data.
+
+```{r}
 total_steps2 <- aggregate(steps ~ date, activity2, sum)
 hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps", breaks = 20)
 ```
 
+Below the histogram are two more data frames.  These are the same calculations as before except that they contain the estimated data.  This had minimal (not noticeable) effects on the mean/median.
+
+```{r}
+mean_daily_steps2 <- aggregate(steps ~ date, activity2, mean)
+mean_steps2 <- mean(activity2$steps, na.rm = TRUE)
+median_daily_steps2 <- aggregate(steps ~ date, activity2, median)
+median_steps2 <- median(activity2$steps, na.rm = TRUE)
+mean_daily_steps2
+mean_steps2
+median_daily_steps2
+median_steps2
+```
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
-
+The first step to comparing the step patters over the work_week and weekend, is differentiating what is the week and weekend.  The following uses the weekdays function to calculate what day of the week the date is, and then the second for loop determines the weekday or weekend.
 
 ```{r}
 day_of_week <- c() ## epmty vector
@@ -125,8 +143,24 @@ for(i in 1:len){
     }
 }
 activity4 <- cbind(activity3, week)
-mean_day_end_steps <- aggregate(steps ~ week + interval, activity4, mean)
+```
 
+At this point there is a new data.frame called activity4.  This data.frame is the same as the orriginal data read in except for:
+
+- the substatutions for the NA values
+- a third column denoting the work week
+- a forth column denoting if it is a weekday or weekend
+
+Below is the first 10 rows in the average number of steps per interval seperated by weekday and weekend.
+
+```{r}
+mean_day_end_steps <- aggregate(steps ~ week + interval, activity4, mean)
+head(mean_day_end_steps, 10)
+```
+
+Below is a time series plot showing the number of steps per interval during the weekdays and weekends.  One observation is that the steps are more spread out throughout the day on the weekends.  On the weekdays there is a spike in the beginning and then it settles down.  This is possibly from people excesising in the morning before starting work, and theb working at a desk for 8-9 hrs.
+
+```{r}
 library("lattice")
 ## create the weekend vs weekdays plot
 xyplot(steps ~ interval | week, data = mean_day_end_steps, 
