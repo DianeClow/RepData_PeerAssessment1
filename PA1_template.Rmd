@@ -23,20 +23,31 @@ activity <- read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
 
-Down below is the total number of steps taken per day.  I have created a new data.frame called total_steps that contains two columns of data.  The first column is the date (there are 53 values).  The second one is the sum of all the steps on that day.
-
-Histogram information goes here
-
-Below the histogram are two more data frames.  They are very similar to total_steps, but instead of showing totals, mean_daily_steps shows the mean and median_daily_steps shows the median.
+Down below is the total number of steps taken per day.  I have created a new data.frame called total_steps that contains two columns of data.  The first column is the date (there are 53 values).  The second one is the sum of all the steps on that day.  The first 10 rows are shown below.  
 
 ```{r}
 total_steps <- aggregate(steps ~ date, activity, sum)
+head(total_steps, 10)
+```
+
+From there a histogram can be built showing how frequently on any given day the subject was able to hit different step ammounts.  This histogram is broken into 20 buckets to to give greater differentiation to the graph.
+
+```{r}
 hist(total_steps$steps, main = "Histogram of Total Steps in a Day", 
-     xlab = "Total Steps")
+     xlab = "Total Steps", breaks = 20)
+```
+
+Below the histogram are two more data frames.  They are very similar to total_steps, but instead of showing totals, mean_daily_steps shows the mean and median_daily_steps shows the median.  Also included is the overall mean (mean_steps) and mediean (median_steps) steps for the entire sample.
+
+```{r}
 mean_daily_steps <- aggregate(steps ~ date, activity, mean)
+mean_steps <- mean(activity$steps, na.rm = TRUE)
 median_daily_steps <- aggregate(steps ~ date, activity, median)
+median_steps <- median(activity$steps, na.rm = TRUE)
 mean_daily_steps
+mean_steps
 median_daily_steps
+median_steps
 ```
 
 ## What is the average daily activity pattern?

@@ -19,24 +19,46 @@ activity <- read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
 
-Down below is the total number of steps taken per day.  I have created a new data.frame called total_steps that contains two columns of data.  The first column is the date (there are 53 values).  The second one is the sum of all the steps on that day.
-
-Histogram information goes here
-
-Below the histogram are two more data frames.  They are very similar to total_steps, but instead of showing totals, mean_daily_steps shows the mean and median_daily_steps shows the median.
+Down below is the total number of steps taken per day.  I have created a new data.frame called total_steps that contains two columns of data.  The first column is the date (there are 53 values).  The second one is the sum of all the steps on that day.  The first 10 rows are shown below.  
 
 
 ```r
 total_steps <- aggregate(steps ~ date, activity, sum)
-hist(total_steps$steps, main = "Histogram of Total Steps in a Day", 
-     xlab = "Total Steps")
+head(total_steps, 10)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+```
+##          date steps
+## 1  2012-10-02   126
+## 2  2012-10-03 11352
+## 3  2012-10-04 12116
+## 4  2012-10-05 13294
+## 5  2012-10-06 15420
+## 6  2012-10-07 11015
+## 7  2012-10-09 12811
+## 8  2012-10-10  9900
+## 9  2012-10-11 10304
+## 10 2012-10-12 17382
+```
+
+From there a histogram can be built showing how frequently on any given day the subject was able to hit different step ammounts.  This histogram is broken into 20 buckets to to give greater differentiation to the graph.
+
+
+```r
+hist(total_steps$steps, main = "Histogram of Total Steps in a Day", 
+     xlab = "Total Steps", breaks = 20)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+
+Below the histogram are two more data frames.  They are very similar to total_steps, but instead of showing totals, mean_daily_steps shows the mean and median_daily_steps shows the median.  Also included is the overall mean (mean_steps) and mediean (median_steps) steps for the entire sample.
+
 
 ```r
 mean_daily_steps <- aggregate(steps ~ date, activity, mean)
+mean_steps <- mean(activity$steps, na.rm = TRUE)
 median_daily_steps <- aggregate(steps ~ date, activity, median)
+median_steps <- median(activity$steps, na.rm = TRUE)
 mean_daily_steps
 ```
 
@@ -95,6 +117,14 @@ mean_daily_steps
 ## 51 2012-11-27 47.3819444
 ## 52 2012-11-28 35.3576389
 ## 53 2012-11-29 24.4687500
+```
+
+```r
+mean_steps
+```
+
+```
+## [1] 37.3826
 ```
 
 ```r
@@ -158,6 +188,14 @@ median_daily_steps
 ## 53 2012-11-29     0
 ```
 
+```r
+median_steps
+```
+
+```
+## [1] 0
+```
+
 ## What is the average daily activity pattern?
 
 Down below a new data.frame is created called time_interval_steps.  This data frame has two colums.  The first of which is the intervals.  The seond is the average number of steps per interval.
@@ -172,7 +210,7 @@ plot(time_interval_steps$steps ~ time_interval_steps$interval,
      ylab="Number of Steps", xlab="Interval (5 minutes)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
 
 ```r
 max <- max(time_interval_steps$steps)
@@ -219,7 +257,7 @@ total_steps2 <- aggregate(steps ~ date, activity2, sum)
 hist(total_steps2$steps, main = "Histogram of Total Steps in a Day", xlab = "Total Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -253,4 +291,4 @@ xyplot(steps ~ interval | week, data = mean_day_end_steps,
        type = "l", layout = c(1, 2))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
